@@ -4,4 +4,8 @@ class PagesController < ApplicationController
 
   def location
   end
+
+  def home
+    @courses = Course.all
+  end
 end
