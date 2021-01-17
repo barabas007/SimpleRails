@@ -1,29 +1,41 @@
-<p id="notice"><%= notice %></p>
+<div id="ytplayer"></div>
 
-<p>
-  <strong>Image:</strong>
-  <%= @course.image %>
-</p>
+<script>
+  // Load the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-<p>
-  <strong>Video:</strong>
-  <%= @course.video %>
-</p>
+  // Replace the 'ytplayer' element with an <iframe> and
+  // YouTube player after the API code downloads.
+  var player;
+  function onYouTubePlayerAPIReady() {
+    player = new YT.Player('ytplayer', {
+      height: '360',
+      width: '100%',
+      videoId: 'M7lc1UVf-VE' #Видео из базы данных <%= @course.video%>
+    });
+  }
+</script>
 
-<p>
-  <strong>Title:</strong>
-  <%= @course.title %>
-</p>
 
-<p>
-  <strong>Star:</strong>
-  <%= @course.star %>
-</p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @course.description %>
-</p>
 
-<%= link_to 'Edit', edit_course_path(@course) %> |
-<%= link_to 'Back', courses_path %>
+<div class="card mb-3">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <%= image_tag @course.image, class: "card-img"%>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= @course.title %></h5>
+        <% (1..@course.star).each do %>
+        <i class="fas fa-star-half-alt"></i>
+        <% end %>
+        <p class="card-text"><%= @course.description %></p>
+        
+      </div>
+    </div>
+  </div>
+</div>
